@@ -19,7 +19,7 @@
 struct STACK{
     char datos[TAM_PILA]; 
     //char dato;
-    struct STACK *ptrDatos; // Puntero que manipule la pila
+    char *ptrDatos; // Puntero que manipule la pila
 
 };
 
