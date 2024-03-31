@@ -18,7 +18,9 @@
 // Estructura para la pila
 struct STACK{
     char datos[TAM_PILA]; 
-    char *ptrDatos; // Puntero que manipule la pila
+    //char dato;
+    struct STACK *ptrDatos; // Puntero que manipule la pila
+
 };
 
 // Declaraciones de funciones
@@ -225,3 +227,4 @@ void popStack(struct STACK *ptrStack){
     printf("\t\t\t\t\t\t\tTxt (pila):\t%c \n", *ptrStack->ptrDatos);
     ptrStack->ptrDatos--; // Se decrementa el puntero de la pila para poder almacenar en la cima algún otro elemento
 }
+
