@@ -40,7 +40,7 @@ int main() {
     char *expresionInfija = leerCadenaDesdeArchivo("entrada.txt");
 
     if(expresionInfija != NULL){
-        printf("Expresion infija leida: %s\n", expresionInfija);
+        printf("\nExpresion infija leida: %s\n\n", expresionInfija);
         conversionInfijaPostfija(expresionInfija);
         free(expresionInfija);
     }else
@@ -59,6 +59,8 @@ void conversionInfijaPostfija(char *cadenaLeida) {
 
     for (ptrCadena = cadenaLeida; *ptrCadena != '\0'; ptrCadena++) {
 
+        printf("Caracter: %c\t", *ptrCadena);
+
         if (esParentesis(*ptrCadena)) {
 
             if (*ptrCadena == '(') {
@@ -66,11 +68,10 @@ void conversionInfijaPostfija(char *cadenaLeida) {
 
             } else if (*ptrCadena == ')') {
                 
-                printf("Parentesis que cierra: %c \n", *ptrCadena);
+                printf("\tParentesis: %c \n\t\t", *ptrCadena);
+
                 while (!pilaVacia(ptrPila) && valorCima(ptrPila) != '(') {
 
-                    //printf("%c", popStack(&ptrPila));
-                    
 
                     escribirEnArchivo(popStack(&ptrPila), "salida.txt");
 
@@ -90,11 +91,13 @@ void conversionInfijaPostfija(char *cadenaLeida) {
 
 
                 //printf("%c", popStack(&ptrPila));
-
+                char caracterPila = popStack(&ptrPila);
+                printf("\tOperador: %c >= %c \n\t\t", caracterPila, *ptrCadena);
                 // escribir en archivo
-                escribirEnArchivo(popStack(&ptrPila), "salida.txt");
+                escribirEnArchivo(caracterPila, "salida.txt");
 
             }
+            // Se agrega el caracter que se estaba leyendo el cual hizo que los demas caracteres se salieran de la pila, a la pila xd
             pushStack(&ptrPila, *ptrCadena);
 
 
