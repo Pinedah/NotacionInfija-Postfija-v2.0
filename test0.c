@@ -32,6 +32,7 @@ int esParentesis(char caracter);
 void imprimirPila(struct Nodo *ptrCima);
 
 int main() {
+
     //char expresionInfija[100];
     //printf("Ingrese la expresion infija: ");
     //fgets(expresionInfija, sizeof(expresionInfija), stdin);
@@ -45,7 +46,6 @@ int main() {
     }else
         printf("La cadena esta vacia.");
     
-
 
     return 0;
 }
@@ -65,11 +65,13 @@ void conversionInfijaPostfija(char *cadenaLeida) {
                 pushStack(&ptrPila, *ptrCadena);
 
             } else if (*ptrCadena == ')') {
-
+                
+                printf("Parentesis que cierra: %c \n", *ptrCadena);
                 while (!pilaVacia(ptrPila) && valorCima(ptrPila) != '(') {
 
                     //printf("%c", popStack(&ptrPila));
                     
+
                     escribirEnArchivo(popStack(&ptrPila), "salida.txt");
 
 
@@ -129,25 +131,24 @@ struct Nodo *crearNodo(char dato) {
     return ptrNuevo;
 }
 
-void pushStack(struct Nodo **ptrToTop, char dato) {
+void pushStack(struct Nodo **ptrCima, char dato) {
     struct Nodo *ptrNuevo = crearNodo(dato);
     if (ptrNuevo != NULL) {
-        ptrNuevo->ptrSig = *ptrToTop;
-        *ptrToTop = ptrNuevo;
-    } else {
-        printf("No se pudo asignar memoria para el nuevo nodo.\n");
-    }
+        ptrNuevo->ptrSig = *ptrCima;
+        *ptrCima = ptrNuevo;
+    } else 
+        printf("No se pudo asignar memoria\n");
 }
 
-char popStack(struct Nodo **ptrToTop) {
-    char valorSacado = '\0';
-    if (*ptrToTop != NULL) {
-        struct Nodo *ptrTemp = *ptrToTop;
-        valorSacado = (*ptrToTop)->dato;
-        *ptrToTop = (*ptrToTop)->ptrSig;
+char popStack(struct Nodo **ptrCima) {
+    char valorRecuperado = '\0';
+    if (*ptrCima != NULL) {
+        struct Nodo *ptrTemp = *ptrCima;
+        valorRecuperado = (*ptrCima)->dato;
+        *ptrCima = (*ptrCima)->ptrSig;
         free(ptrTemp);
     }
-    return valorSacado;
+    return valorRecuperado;
 }
 
 int pilaVacia(struct Nodo *ptrCima) {
@@ -224,12 +225,22 @@ char *leerCadenaDesdeArchivo(char *nombreArchivo) {
 
 void imprimirPila(struct Nodo *ptrCima) {
     struct Nodo *temp = ptrCima;
+
+    char elementos[100]; // Array temporal para almacenar los elementos de la pila
+    int indice = 0;
+
+    printf("\tElementos de la pila: ");
     
-    printf("\t\t\t\tElementos de la pila: ");
-    
+    // Almacenar los elementos de la pila en el array temporal
     while (temp != NULL) {
-        printf("%c ", temp->dato); 
+        elementos[indice++] = temp->dato;
         temp = temp->ptrSig;
     }
+    
+    // Imprimir los elementos del array en orden inverso
+    for (int i = indice - 1; i >= 0; i--) {
+        printf("%c ", elementos[i]);
+    }
+    
     printf("\n");
 }
